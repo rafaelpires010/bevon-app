@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Code2, MessageSquare, Rocket } from "lucide-react";
 import Link from "next/link";
 
+interface ServiceCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
 export default function Home() {
   return (
     <main className="min-h-screen">
@@ -70,7 +76,7 @@ export default function Home() {
   );
 }
 
-function ServiceCard({ icon, title, description }) {
+function ServiceCard({ icon, title, description }: ServiceCardProps) {
   return (
     <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
       <div className="text-purple-600 mb-4">{icon}</div>

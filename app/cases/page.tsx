@@ -3,6 +3,19 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
+interface CaseStudyProps {
+  image: string;
+  title: string;
+  description: string;
+  results: string[];
+}
+
+interface TestimonialProps {
+  quote: string;
+  author: string;
+  role: string;
+}
+
 export default function Cases() {
   return (
     <main className="pt-20">
@@ -75,7 +88,7 @@ export default function Cases() {
   );
 }
 
-function CaseStudy({ image, title, description, results }) {
+function CaseStudy({ image, title, description, results }: CaseStudyProps) {
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden">
       <div
@@ -98,7 +111,7 @@ function CaseStudy({ image, title, description, results }) {
   );
 }
 
-function Testimonial({ quote, author, role }) {
+function Testimonial({ quote, author, role }: TestimonialProps) {
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg">
       <p className="text-gray-600 italic mb-6">&ldquo;{quote}&rdquo;</p>

@@ -12,6 +12,12 @@ import {
   Share2
 } from "lucide-react";
 
+interface ServiceCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
 export default function Services() {
   return (
     <main className="pt-20">
@@ -76,7 +82,7 @@ export default function Services() {
   );
 }
 
-function ServiceCard({ icon, title, description }) {
+function ServiceCard({ icon, title, description }: ServiceCardProps) {
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
       <div className="text-purple-600 mb-6">{icon}</div>

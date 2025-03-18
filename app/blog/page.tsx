@@ -94,7 +94,16 @@ export default function Blog() {
   );
 }
 
-function BlogPost({ image, title, excerpt, date, readTime, author }) {
+interface BlogPostProps {
+  image: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  author: string;
+}
+
+function BlogPost({ image, title, excerpt, date, readTime, author }: BlogPostProps) {
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden">
       <div

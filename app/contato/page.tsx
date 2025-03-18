@@ -5,6 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 
+interface ContactInfoProps {
+  icon: React.ReactNode;
+  title: string;
+  content: string;
+}
+
 export default function Contact() {
   return (
     <main className="pt-20">
@@ -102,7 +108,7 @@ export default function Contact() {
   );
 }
 
-function ContactInfo({ icon, title, content }) {
+function ContactInfo({ icon, title, content }: ContactInfoProps) {
   return (
     <div className="flex items-start space-x-4">
       <div className="text-purple-600">{icon}</div>

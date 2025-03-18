@@ -2,6 +2,12 @@
 
 import { Award, Users, Target, Lightbulb } from "lucide-react";
 
+interface TeamMemberProps {
+  image: string;
+  name: string;
+  role: string;
+}
+
 export default function About() {
   return (
     <main className="pt-20">
@@ -77,7 +83,7 @@ export default function About() {
   );
 }
 
-function TeamMember({ image, name, role }) {
+function TeamMember({ image, name, role }: TeamMemberProps) {
   return (
     <div className="text-center">
       <div className="relative w-48 h-48 mx-auto mb-6">
