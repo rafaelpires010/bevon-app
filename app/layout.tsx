@@ -7,8 +7,13 @@ import { FloatingCTA } from '@/components/floating-cta';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Bevon - Marketing Digital e Desenvolvimento de Software',
-  description: 'Transforme sua presença digital com soluções personalizadas de marketing e desenvolvimento de software.',
+  title: 'Bevon - Marketing Digital e Desenvolvimento',
+  description: 'Transforme sua presença digital com a Bevon. Marketing digital e desenvolvimento de software para impulsionar seu negócio ao próximo nível.',
+  icons: {
+    icon: '/bevon-icon.png',
+    shortcut: '/bevon-icon.png',
+    apple: '/bevon-icon.png',
+  },
 };
 
 export default function RootLayout({
