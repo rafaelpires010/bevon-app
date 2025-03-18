@@ -11,6 +11,7 @@ import {
   Mail,
   Share2
 } from "lucide-react";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 
 interface ServiceCardProps {
   icon: React.ReactNode;
@@ -73,9 +74,13 @@ export default function Services() {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-8">Vamos conversar sobre seu projeto?</h2>
-          <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6">
+          {/* <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6">
             Solicitar Orçamento
-          </Button>
+          </Button> */}
+          <WhatsAppButton
+            variant="orcamento"
+            className="bg-purple-600 hover:bg-purple-700 text-white"
+          />
         </div>
       </section>
     </main>

@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,9 +14,10 @@ export function Navbar() {
     { label: "Home", href: "/" },
     { label: "Sobre Nós", href: "/sobre" },
     { label: "Serviços", href: "/servicos" },
-    { label: "Cases", href: "/cases" },
-    { label: "Blog", href: "/blog" },
-    { label: "Contato", href: "/contato" },
+    // Removidos temporariamente:
+    // { label: "Cases", href: "/cases" },
+    // { label: "Blog", href: "/blog" },
+    // { label: "Contato", href: "/contato" },
   ];
 
   return (
@@ -22,7 +25,7 @@ export function Navbar() {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="text-2xl font-bold text-purple-900">
-            Bevon
+            <Image src="/Bevon-Photoroom.png" alt="Logo" width={200} height={200} />
           </Link>
 
           {/* Desktop Navigation */}
@@ -36,9 +39,7 @@ export function Navbar() {
                 {item.label}
               </Link>
             ))}
-            <Button className="bg-purple-600 hover:bg-purple-700 text-white">
-              Agendar Reunião
-            </Button>
+            <WhatsAppButton className="bg-purple-600 hover:bg-purple-700 text-white" />
           </div>
 
           {/* Mobile Menu Button */}
@@ -67,9 +68,7 @@ export function Navbar() {
                 {item.label}
               </Link>
             ))}
-            <Button className="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white">
-              Agendar Reunião
-            </Button>
+            <WhatsAppButton className="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white" />
           </div>
         )}
       </div>

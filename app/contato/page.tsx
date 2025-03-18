@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 
 interface ContactInfoProps {
   icon: React.ReactNode;
@@ -59,10 +60,7 @@ export default function Contact() {
                     className="min-h-[150px]"
                   />
                 </div>
-                <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
-                  <Send className="w-4 h-4 mr-2" />
-                  Enviar Mensagem
-                </Button>
+                <WhatsAppButton className="w-full bg-purple-600 hover:bg-purple-700 text-white" />
               </form>
             </div>
 
