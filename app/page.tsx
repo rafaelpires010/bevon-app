@@ -52,7 +52,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519389950473-47ba0277781c')] bg-cover bg-center mix-blend-overlay opacity-10"></div>
         <div className="container mx-auto px-6 text-center text-white relative z-10">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Marketing Digital e Desenvolvimento de Software em Belo Horizonte
+            Transforme sua visibilidade online com a Bevon
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
             Marketing digital e desenvolvimento de software para impulsionar seu negócio ao próximo nível
