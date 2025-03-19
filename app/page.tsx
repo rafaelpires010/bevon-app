@@ -21,14 +21,38 @@ interface ServiceCardProps {
 }
 
 export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Bevon Digital",
+    "url": "https://www.bevon.com.br",
+    "logo": "https://www.bevon.com.br/bevon-icon.png",
+    "description": "Agência especializada em marketing digital e desenvolvimento de software em Belo Horizonte.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Belo Horizonte",
+      "addressRegion": "MG",
+      "addressCountry": "BR"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+55-31-97401-1149",
+      "contactType": "customer service"
+    }
+  };
+
   return (
     <main className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-purple-900">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519389950473-47ba0277781c')] bg-cover bg-center mix-blend-overlay opacity-10"></div>
         <div className="container mx-auto px-6 text-center text-white relative z-10">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-up">
-            Transforme sua presença digital com a Bevon
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            Marketing Digital e Desenvolvimento de Software em Belo Horizonte
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
             Marketing digital e desenvolvimento de software para impulsionar seu negócio ao próximo nível
@@ -45,7 +69,7 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
-              Por que escolher a Bevon?
+              Soluções Completas em Marketing Digital e Desenvolvimento
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Combinamos expertise técnica com estratégia de negócios para impulsionar seu crescimento digital
