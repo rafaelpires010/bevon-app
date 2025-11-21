@@ -18,6 +18,7 @@ export function ContactSection() {
                     <p className="text-gray-400 max-w-2xl mx-auto text-lg">
                         Tem um projeto em mente? Mande uma mensagem e vamos conversar sobre como podemos ajudar.
                     </p>
+
                 </AnimatedSection>
 
                 <div className="max-w-2xl mx-auto">
