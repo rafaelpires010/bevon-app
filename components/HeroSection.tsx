@@ -104,7 +104,7 @@ export function HeroSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5, duration: 1 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce"
+                className="hidden md:block absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce"
             >
                 <div className="w-6 h-10 rounded-full border-2 border-white/20 flex justify-center p-1">
                     <div className="w-1 h-2 bg-primary rounded-full" />

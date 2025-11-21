@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Code2, MessageSquare, PenTool, Layout } from "lucide-react";
 import { AnimatedSection } from "./AnimatedSection";
+import { useEffect, useState, useRef } from "react";
 
 const services = [
     {
@@ -28,8 +29,35 @@ const services = [
 ];
 
 export function ServicesSection() {
+    const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const index = Number(entry.target.getAttribute("data-index"));
+                        setActiveIndex(index);
+                    }
+                });
+            },
+            {
+                root: null,
+                rootMargin: "-20% 0px -20% 0px", // Trigger when element is in the middle 60% of viewport
+                threshold: 0.4,
+            }
+        );
+
+        cardsRef.current.forEach((card) => {
+            if (card) observer.observe(card);
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
-        <section id="services" className="py-24 relative">
+        <section id="services" className="py-12 md:py-24 relative">
             <div className="container mx-auto px-4">
                 <AnimatedSection className="text-center mb-16">
                     <h2 className="text-3xl md:text-5xl font-bold mb-6">
@@ -44,13 +72,24 @@ export function ServicesSection() {
                     {services.map((service, index) => (
                         <AnimatedSection key={index} delay={index * 0.1}>
                             <motion.div
+                                ref={(el) => { cardsRef.current[index] = el }}
+                                data-index={index}
                                 whileHover={{ y: -10 }}
-                                className="h-full p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-colors group"
+                                className={`h-full p-6 rounded-2xl bg-white/5 border transition-colors duration-300 group ${activeIndex === index
+                                        ? "border-primary/50 bg-white/10"
+                                        : "border-white/10 hover:border-primary/50"
+                                    }`}
                             >
-                                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-colors duration-300 ${activeIndex === index
+                                        ? "bg-primary text-white"
+                                        : "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"
+                                    }`}>
                                     {service.icon}
                                 </div>
-                                <h3 className="text-xl font-bold mb-3 text-white group-hover:text-primary transition-colors">
+                                <h3 className={`text-xl font-bold mb-3 transition-colors duration-300 ${activeIndex === index
+                                        ? "text-primary"
+                                        : "text-white group-hover:text-primary"
+                                    }`}>
                                     {service.title}
                                 </h3>
                                 <p className="text-gray-400 leading-relaxed">

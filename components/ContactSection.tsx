@@ -6,7 +6,7 @@ import { AnimatedSection } from "./AnimatedSection";
 
 export function ContactSection() {
     return (
-        <section id="contact" className="py-24 relative overflow-hidden bg-black">
+        <section id="contact" className="py-12 md:py-24 relative overflow-hidden bg-black">
             {/* Background Elements */}
             <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_100%_0%,rgba(147,51,234,0.1),transparent_50%)] pointer-events-none" />
 
