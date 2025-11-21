@@ -82,8 +82,8 @@ export function ContactSection() {
                                 <textarea
                                     id="message"
                                     name="message"
-                                    required
                                     rows={5}
+                                    required
                                     className="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-white transition-all placeholder:text-gray-600 resize-none"
                                     placeholder="Como podemos ajudar?"
                                 />
