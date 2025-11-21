@@ -1,77 +1,113 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
 import Image from "next/image";
-import { WhatsAppButton } from "@/components/whatsapp-button";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { scrollY } = useScroll();
 
-  const navItems = [
-    { label: "Home", href: "/" },
-    { label: "Sobre Nós", href: "/sobre" },
-    { label: "Serviços", href: "/servicos" },
-    // Removidos temporariamente:
-    // { label: "Cases", href: "/cases" },
-    // { label: "Blog", href: "/blog" },
-    // { label: "Contato", href: "/contato" },
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setIsScrolled(latest > 50);
+  });
+
+  const navLinks = [
+    { name: "Início", href: "#home" },
+    { name: "Serviços", href: "#services" },
   ];
 
   return (
-    <nav className="fixed w-full bg-white/80 backdrop-blur-md z-50 shadow-sm">
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
-          <Link href="/" className="text-2xl font-bold text-purple-900">
-            <Image src="/Bevon-Photoroom.png" alt="Logo" width={200} height={200} />
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-gray-600 hover:text-purple-900 transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
-            <WhatsAppButton className="bg-purple-600 hover:bg-purple-700 text-white" />
+    <motion.nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
+        ? "py-3 bg-[#050505]/90 backdrop-blur-md border-b border-white/10 shadow-lg shadow-purple-900/5"
+        : "py-6 bg-black/50 backdrop-blur-sm border-b border-white/5"
+        }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="container mx-auto px-4 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className={`relative transition-all duration-500 ${isScrolled ? "w-8 h-8" : "w-10 h-10"}`}>
+            <Image
+              src="/assets/logo.png"
+              alt="Bevon Digital Logo"
+              fill
+              className="object-contain"
+            />
           </div>
+          <span className={`font-bold tracking-tight text-white group-hover:text-primary transition-all duration-500 ${isScrolled ? "text-lg" : "text-xl"}`}>
+            Bevon Digital
+          </span>
+        </Link>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group"
+            >
+              {link.name}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+            </Link>
+          ))}
+          <a
+            href="https://wa.me/5531974011149"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`px-5 py-2.5 bg-primary/10 hover:bg-primary text-primary hover:text-white border border-primary/20 hover:border-primary rounded-full transition-all duration-300 text-sm font-medium ${isScrolled ? "scale-95" : "scale-100"
+              }`}
           >
-            {isOpen ? (
-              <X className="h-6 w-6 text-gray-600" />
-            ) : (
-              <Menu className="h-6 w-6 text-gray-600" />
-            )}
-          </button>
+            Fale Conosco
+          </a>
         </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden py-4">
-            {navItems.map((item) => (
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="absolute top-full left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/10 p-6 md:hidden"
+        >
+          <div className="flex flex-col gap-4">
+            {navLinks.map((link) => (
               <Link
-                key={item.href}
-                href={item.href}
-                className="block py-2 text-gray-600 hover:text-purple-900"
-                onClick={() => setIsOpen(false)}
+                key={link.name}
+                href={link.href}
+                className="text-lg font-medium text-gray-300 hover:text-primary transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
-                {item.label}
+                {link.name}
               </Link>
             ))}
-            <WhatsAppButton className="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white" />
+            <a
+              href="https://wa.me/5531974011149"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 w-full py-3 bg-primary text-white rounded-lg text-center font-medium hover:bg-primary/90 transition-colors block"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Fale Conosco
+            </a>
           </div>
-        )}
-      </div>
-    </nav>
+        </motion.div>
+      )}
+    </motion.nav>
   );
 }
