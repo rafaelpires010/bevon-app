@@ -3,35 +3,42 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const projects = [
     {
-        title: "E-commerce Premium",
-        category: "Desenvolvimento Web",
-        image: "/assets/ecommerce_mockup.png",
-        description: "Plataforma de vendas online com design exclusivo e alta conversão.",
-        link: "#"
+        title: "Heros Lovers",
+        category: "Plataforma Web",
+        image: "/assets/heros_lovers_cover.png",
+        description: "Uma comunidade digital vibrante e interativa, conectando pessoas com paixões em comum através de uma interface moderna.",
+        link: "https://heroslovers.com"
     },
     {
-        title: "App Delivery",
-        category: "Aplicativo Mobile",
-        image: "/assets/app_delivery_mockup.png",
-        description: "Aplicativo de delivery intuitivo e rápido para redes de franquias.",
-        link: "#"
+        title: "Adv Model",
+        category: "Solução Jurídica",
+        image: "/assets/adv_model_cover.png",
+        description: "Plataforma especializada para o setor jurídico, oferecendo modelos e ferramentas para otimizar a advocacia.",
+        link: "https://advmodel.bevon.com.br"
     },
     {
-        title: "Dashboard Corporativo",
-        category: "Sistema Web",
-        image: "/assets/dashboard_mockup.png",
-        description: "Painel administrativo para gestão de dados em tempo real.",
-        link: "#"
+        title: "Alves Formatura",
+        category: "Landing Page",
+        image: "/assets/alves_formatura_cover.png",
+        description: "Capturando momentos inesquecíveis com ensaios de formatura exclusivos.",
+        link: "https://lpalvesformatura.vercel.app/"
     },
     {
-        title: "Landing Page SaaS",
-        category: "Marketing Digital",
-        image: "/assets/landing_page_mockup.png",
-        description: "Página de alta performance focada em captação de leads qualificados.",
-        link: "#"
+        title: "Cão Soldado",
+        category: "Landing Page",
+        image: "/assets/cao_soldado_cover.png",
+        description: "Pagina de vendas para treinamento de cães soldados.",
+        link: "https://sitedesafiocao15.vercel.app/"
     }
 ];
 
@@ -52,63 +59,88 @@ export function PortfolioSection() {
                 >
                     <span className="text-primary font-medium tracking-wider uppercase text-sm">Nosso Trabalho</span>
                     <h2 className="text-4xl md:text-5xl font-bold mt-2 mb-4">
-                        Projetos em <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Destaque</span>
+                        Conheça alguns de nossos <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">trabalhos e modelos</span>
                     </h2>
                     <p className="text-gray-400 max-w-2xl mx-auto">
                         Conheça algumas das soluções digitais que desenvolvemos para transformar negócios.
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <Swiper
+                    modules={[Navigation, Pagination, Autoplay]}
+                    grabCursor={true}
+                    centeredSlides={false}
+                    pagination={{ clickable: true }}
+                    navigation={true}
+                    autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    }}
+                    loop={true}
+                    className="mySwiper w-full py-12"
+                    breakpoints={{
+                        640: {
+                            slidesPerView: 1,
+                            spaceBetween: 20,
+                        },
+                        768: {
+                            slidesPerView: 3,
+                            spaceBetween: 40,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 50,
+                        },
+                    }}
+                >
                     {projects.map((project, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
-                            className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
-                        >
-                            {/* Image Container */}
-                            <div className="relative h-64 overflow-hidden">
-                                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors z-10" />
-                                <Image
-                                    src={project.image}
-                                    alt={project.title}
-                                    fill
-                                    className="object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                />
-                            </div>
+                        <SwiperSlide key={index}>
+                            <div className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 transition-colors h-full">
+                                {/* Image Container */}
+                                <div className="relative h-64 overflow-hidden">
+                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors z-10" />
+                                    <Image
+                                        src={project.image}
+                                        alt={project.title}
+                                        fill
+                                        className="object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                    />
+                                </div>
 
-                            {/* Content */}
-                            <div className="p-8">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div>
-                                        <span className="text-primary text-sm font-medium mb-2 block">{project.category}</span>
-                                        <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">
-                                            {project.title}
-                                        </h3>
+                                {/* Content */}
+                                <div className="p-8">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div>
+                                            <span className="text-primary text-sm font-medium mb-2 block">{project.category}</span>
+                                            <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">
+                                                {project.title}
+                                            </h3>
+                                        </div>
+                                        <a
+                                            href={project.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-2 rounded-full bg-white/10 hover:bg-primary text-white transition-all hover:scale-110"
+                                        >
+                                            <ArrowUpRight size={20} />
+                                        </a>
                                     </div>
+                                    <p className="text-gray-400 mb-6">
+                                        {project.description}
+                                    </p>
                                     <a
                                         href={project.link}
-                                        className="p-2 rounded-full bg-white/10 hover:bg-primary text-white transition-all hover:scale-110"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-sm font-medium text-white hover:text-primary transition-colors"
                                     >
-                                        <ArrowUpRight size={20} />
+                                        Ver Detalhes <ExternalLink size={14} />
                                     </a>
                                 </div>
-                                <p className="text-gray-400 mb-6">
-                                    {project.description}
-                                </p>
-                                <a
-                                    href={project.link}
-                                    className="inline-flex items-center gap-2 text-sm font-medium text-white hover:text-primary transition-colors"
-                                >
-                                    Ver Detalhes <ExternalLink size={14} />
-                                </a>
                             </div>
-                        </motion.div>
+                        </SwiperSlide>
                     ))}
-                </div>
+                </Swiper>
 
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -125,6 +157,26 @@ export function PortfolioSection() {
                     </a>
                 </motion.div>
             </div>
+            <style jsx global>{`
+                .swiper-pagination-bullet {
+                    background-color: #fff;
+                    opacity: 0.5;
+                }
+                .swiper-pagination-bullet-active {
+                    background-color: #9333ea; /* Primary purple */
+                    opacity: 1;
+                }
+                .swiper-button-next,
+                .swiper-button-prev {
+                    color: #9333ea;
+                }
+                @media (max-width: 768px) {
+                    .swiper-button-next,
+                    .swiper-button-prev {
+                        display: none !important;
+                    }
+                }
+            `}</style>
         </section>
     );
 }
