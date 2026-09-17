@@ -60,7 +60,7 @@ export function BrandStage() {
           <motion.span
             variants={fadeUp}
             transition={{ duration: 0.6 }}
-            className="block text-[0.65rem] font-medium uppercase tracking-[0.3em] text-primary sm:text-sm"
+            className="hidden text-[0.65rem] font-medium uppercase tracking-[0.3em] text-primary sm:block sm:text-sm"
           >
             Tecnologia que impulsiona
           </motion.span>
@@ -68,7 +68,7 @@ export function BrandStage() {
           <motion.h1
             variants={fadeUp}
             transition={{ duration: 0.6 }}
-            className="mt-4 text-balance text-[1.75rem] font-extrabold leading-[1.08] tracking-tight text-[#05010F] sm:mt-6 sm:text-5xl sm:leading-[1.05] lg:text-6xl"
+            className="text-balance text-[1.75rem] font-extrabold leading-[1.08] tracking-tight text-[#05010F] sm:mt-6 sm:text-5xl sm:leading-[1.05] lg:text-6xl"
           >
             Ideias em{" "}
             {/* O degradê vai do roxo da luz ao roxo do corpo da marca: sobre
@@ -88,16 +88,19 @@ export function BrandStage() {
           </motion.p>
 
           {/*
-            No celular fica só o CTA principal. Os dois botões empilhados
-            somavam uns 60px que o painel não tem para gastar: cada pixel de
-            painel é um pixel a mais em cima do B, que na arte em pé começa
-            quase na metade da tela. "Conheça a Bevon" volta na quebra sm, e
-            no celular a página Sobre continua a um toque pelo menu.
+            No celular o painel não tem altura para gastar: cada pixel dele é
+            um pixel a mais em cima do B, que na arte em pé começa quase na
+            metade da tela. Por isso a linha de botões inteira só existe da
+            quebra sm para cima — some a linha, e não só os botões, senão a
+            margem dela continuaria ocupando espaço.
+
+            O caminho para falar com a Bevon no celular continua em dois
+            lugares: o botão flutuante de WhatsApp e o menu.
           */}
           <motion.div
             variants={fadeUp}
             transition={{ duration: 0.6 }}
-            className="mt-6 flex flex-col items-stretch gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center"
+            className="mt-6 hidden flex-col items-stretch gap-3 sm:mt-8 sm:flex sm:flex-row sm:flex-wrap sm:items-center"
           >
             <CTAButton
               context="um projeto para a minha empresa"
