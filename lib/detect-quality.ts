@@ -27,13 +27,25 @@ export function detectQuality(): Quality {
   // Libera o contexto de teste — navegadores limitam contextos WebGL simultâneos.
   gl.getExtension("WEBGL_lose_context")?.loseContext();
 
-  // 3. Sinais de dispositivo modesto → cena reduzida, não desligada.
-  const cores = navigator.hardwareConcurrency ?? 4;
-  const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 4;
-  const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
-  const narrow = window.innerWidth < 768;
+  /*
+    3. Sinais de dispositivo modesto → cena reduzida, não desligada.
 
-  if (cores <= 4 || memory <= 4 || (coarsePointer && narrow)) return "low";
+    Duas armadilhas que estavam aqui e jogavam aparelho bom no perfil pobre:
+
+    - "tela pequena e dedo" NÃO é sinal de fraqueza. Celular de hoje roda esta
+      cena com folga, e essa regra sozinha condenava todos eles a dpr 1.15 sem
+      antisserrilhado — o que se via era um B em escada, não um B de metal.
+    - Ausência de informação não é informação. `deviceMemory` só existe em
+      navegador Chromium; o `?? 4` transformava todo Safari, de iPhone a Mac,
+      em "4 GB" e portanto em modesto. Agora só conta o sinal que existe.
+  */
+  const cores = navigator.hardwareConcurrency;
+  const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
+
+  const weakCpu = typeof cores === "number" && cores <= 4;
+  const weakMemory = typeof memory === "number" && memory <= 4;
+
+  if (weakCpu || weakMemory) return "low";
 
   return "high";
 }

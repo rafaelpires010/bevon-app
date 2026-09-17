@@ -88,8 +88,15 @@ export const EXIT = {
  */
 export const BAR_SWAP = (EXIT.backgroundStart + EXIT.fadeEnd) / 2;
 
-/** Contagens por nível de qualidade. */
+/**
+ * Contagens por nível de qualidade.
+ *
+ * O dpr do perfil reduzido subiu de 1.15 para 1.5: sem antisserrilhado, quem
+ * suaviza as diagonais do B é a densidade de pixel, e 1.15 numa tela de 3x
+ * devolvia escada em cada aresta. Antisserrilhado continua desligado lá porque
+ * custa mais caro que o meio ponto de dpr que o substitui.
+ */
 export const QUALITY_PRESETS = {
-  high: { stars: 2600, dpr: [1, 1.75] as [number, number], antialias: true },
-  low: { stars: 900, dpr: [0.8, 1.15] as [number, number], antialias: false },
+  high: { stars: 2600, dpr: [1, 2] as [number, number], antialias: true },
+  low: { stars: 900, dpr: [1, 1.5] as [number, number], antialias: false },
 } as const;

@@ -9,8 +9,29 @@ import { EXIT, PALETTE } from "./config";
 import { createMarkFragments } from "./mark-fragments";
 import { createMarkGeometry } from "./mark-shape";
 
-/** Altura da marca em unidades de cena. */
+/**
+ * Altura da marca, como fração da LARGURA DO PÓDIO desenhado na arte.
+ *
+ * Era uma constante em unidades de cena, e essa era a origem do B gigante no
+ * celular: a arte encolhe com a tela, o pódio encolhe junto, e a marca não —
+ * ela ficava com quase o dobro do tamanho que a arte previu e subia por cima
+ * do texto. Medida pelo pódio, a proporção entre os dois é a mesma em qualquer
+ * tela, que é o que a arte foi desenhada para ter.
+ *
+ * 0.55 é a proporção que a marca JÁ TINHA no desktop, onde o enquadramento
+ * está aprovado. Escolhido assim de propósito: o desktop não se mexe (a conta
+ * devolve praticamente as mesmas 5,2 unidades de antes) e quem muda é só o
+ * celular, que era onde a marca estourava. A arte comporta até uns 0.69, se um
+ * dia a decisão for deixá-la maior nos dois.
+ */
+const MARK_TO_PODIUM = 0.55;
+
+/** Altura inicial, só até o primeiro quadro medir o pódio de verdade. */
 const SIZE = 5.2;
+
+/** Limites de sanidade, para tela absurda não gerar marca absurda. */
+const MIN_SIZE = 2.4;
+const MAX_SIZE = 8;
 
 const tmpHome = new THREE.Vector3();
 const tmpOffset = new THREE.Vector3();
@@ -59,9 +80,11 @@ export function BevonMark({ lowQuality }: { lowQuality: boolean }) {
     () =>
       createMarkGeometry({
         depth: 0.2,
-        bevel: lowQuality ? 0 : 0.014,
-        bevelSegments: lowQuality ? 1 : 4,
-        curveSegments: lowQuality ? 3 : 6,
+        // O chanfro é o que pega a luz: sem ele a marca lê como adesivo
+        // recortado. Mesmo no perfil reduzido ele fica, só que mais barato.
+        bevel: lowQuality ? 0.01 : 0.014,
+        bevelSegments: lowQuality ? 2 : 4,
+        curveSegments: lowQuality ? 4 : 6,
       }),
     [lowQuality]
   );
@@ -117,17 +140,40 @@ export function BevonMark({ lowQuality }: { lowQuality: boolean }) {
     /*
       Onde o pódio da arte está na tela agora, e que ponto da cena é aquele.
       A conta refaz o corte do object-cover e o raio traz o resultado para
-      unidades de mundo; `+ SIZE / 2` sobe do apoio até o centro da marca,
+      unidades de mundo; meia altura sobe do apoio até o centro da marca,
       porque a geometria é centrada nos três eixos e o pódio é o pé dela.
     */
     const camera = s.camera as THREE.PerspectiveCamera;
     const art = pickBackdrop(camera.aspect);
-    const screen = projectBackdropPoint(art, camera.aspect);
+    const screen = projectBackdropPoint(art, art.podium, camera.aspect);
+
+    /*
+      Tamanho da marca, medido pelo pódio que está na tela agora.
+
+      A borda direita do pódio é projetada junto com o centro; a distância
+      entre as duas, em frações de tela, vira unidades de cena pela largura
+      visível no plano Z=0. Daí sai a régua.
+    */
+    const edge = projectBackdropPoint(
+      art,
+      { x: art.podium.x + art.podiumWidth / 2, y: art.podium.y },
+      camera.aspect
+    );
+    const distance = Math.abs(camera.position.z);
+    const visibleHeight = 2 * distance * Math.tan((camera.fov * Math.PI) / 360);
+    const podiumWidth = Math.abs(edge.x - screen.x) * 2 * visibleHeight * camera.aspect;
+    const size = THREE.MathUtils.clamp(
+      podiumWidth * MARK_TO_PODIUM,
+      MIN_SIZE,
+      MAX_SIZE
+    );
+    swing.current.scale.setScalar(size);
+
     tmpNdc.set(screen.x * 2 - 1, 1 - screen.y * 2);
     raycaster.setFromCamera(tmpNdc, camera);
 
     if (raycaster.ray.intersectPlane(markPlane, tmpHome)) {
-      tmpHome.y += SIZE / 2;
+      tmpHome.y += size / 2;
     } else {
       // Raio paralelo ao plano não acontece com esta câmera, mas se acontecer
       // a marca fica onde está em vez de saltar para a origem.

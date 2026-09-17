@@ -36,6 +36,15 @@ export type BackdropArt = {
    * esquerdo). É onde a BASE da marca encosta.
    */
   podium: { x: number; y: number };
+  /**
+   * Largura do pódio, em fração da largura da arte.
+   *
+   * É a régua da marca: o B é dimensionado como uma proporção disto, e não em
+   * unidades fixas de cena. Sem essa régua, a marca mantinha o mesmo tamanho
+   * de mundo enquanto a arte encolhia com a tela — e no celular ela crescia
+   * para fora do pódio, subindo por cima do texto.
+   */
+  podiumWidth: number;
   /** Espelhado no CSS (.backdrop-art, em globals.css). Mudou aqui, mude lá. */
   layout: BackdropLayout;
 };
@@ -46,6 +55,7 @@ export const BACKDROP_WIDE: BackdropArt = {
   width: 1786,
   height: 880,
   podium: { x: 0.71, y: 0.795 },
+  podiumWidth: 0.35,
   layout: {
     mode: "cover",
     /**
@@ -62,6 +72,7 @@ export const BACKDROP_TALL: BackdropArt = {
   width: 940,
   height: 1672,
   podium: { x: 0.571, y: 0.721 },
+  podiumWidth: 0.6,
   layout: { mode: "width", bottomOffset: 0.12 },
 };
 
@@ -94,9 +105,9 @@ export function pickBackdrop(viewportAspect: number): BackdropArt {
 }
 
 /**
- * Onde o pódio de uma arte cai na janela.
+ * Onde um ponto da arte cai na janela.
  *
- * Recebe a proporção da janela e devolve frações dela (0..1, do canto superior
+ * Recebe um ponto em frações da arte e devolve frações da janela (0..1, do canto superior
  * esquerdo). Refaz em JavaScript o mesmo enquadramento que o CSS aplica na
  * imagem; sem isto a marca ficaria em cima do pódio só na proporção exata em
  * que a arte foi desenhada.
@@ -106,15 +117,17 @@ export function pickBackdrop(viewportAspect: number): BackdropArt {
  */
 export function projectBackdropPoint(
   art: BackdropArt,
+  point: { x: number; y: number },
   viewportAspect: number
 ): { x: number; y: number } {
   const artAspect = art.width / art.height;
 
   if (art.layout.mode === "width") {
-    // Altura da arte medida em alturas de tela.
+    // Largura cheia: o eixo X passa direto. Altura da arte medida em alturas
+    // de tela.
     const height = viewportAspect / artAspect;
     const top = 1 + art.layout.bottomOffset - height;
-    return { x: art.podium.x, y: top + art.podium.y * height };
+    return { x: point.x, y: top + point.y * height };
   }
 
   const { focus } = art.layout;
@@ -123,11 +136,11 @@ export function projectBackdropPoint(
     // Janela mais larga que a arte: ela cobre a largura inteira e sobra altura.
     const visible = artAspect / viewportAspect;
     const top = focus.y * (1 - visible);
-    return { x: art.podium.x, y: (art.podium.y - top) / visible };
+    return { x: point.x, y: (point.y - top) / visible };
   }
 
   // Janela mais estreita: cobre a altura inteira e sobra largura.
   const visible = viewportAspect / artAspect;
   const left = focus.x * (1 - visible);
-  return { x: (art.podium.x - left) / visible, y: art.podium.y };
+  return { x: (point.x - left) / visible, y: point.y };
 }
