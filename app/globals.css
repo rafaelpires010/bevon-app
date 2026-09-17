@@ -97,3 +97,86 @@
     background-size: 40px 40px;
   }
 }
+/* --------------------------------------------------------------------- */
+/* Camada 3D persistente                                                  */
+/* --------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    /* Cor base do túnel: evita flash branco antes do canvas montar. */
+    background-color: #05010f;
+    scroll-behavior: smooth;
+  }
+
+  /* O fundo vem do canvas fixo (-z-10), não do body. */
+  body {
+    background-color: transparent;
+  }
+
+  /* Compensa a navbar fixa ao pular para uma âncora. */
+  section[id] {
+    scroll-margin-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer utilities {
+  /* Faixa infinita de marcas (PartnersClients). O deslocamento é -50%
+     porque a lista é duplicada — meio ciclo já reinicia sem emenda. */
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 38s linear infinite;
+  }
+}
+
+@layer components {
+  /*
+    Enquadramento da arte do fundo (ver components/three/SceneBackdrop.tsx).
+
+    Mora no CSS porque o <picture> troca a imagem por media query e cada arte
+    quer o seu enquadramento. Fica em @layer components, e não em base, para
+    ganhar das utilities do Tailwind que o elemento poderia herdar.
+
+    Deitada: cobre a tela e corta o que sobra. O corte é horizontal, e puxar o
+    enquadramento para 78% é o que impede o pódio de sair pela direita.
+
+    Em pé: largura inteira, sem corte lateral — é assim que os quatro cards
+    ficam dentro da tela. A altura vem do que a arte é, sobra menos altura do
+    que a tela tem, e a arte é ancorada 12% ABAIXO da borda de baixo: o rodapé
+    de seda lisa sai de quadro, o pódio sobe, e o vazio vai todo para o topo,
+    onde a barra e o painel de texto já cobrem. A faixa que aparece ali é a cor
+    da cena, a mesma com que a arte começa.
+
+    Os números espelham `layout` em components/three/backdrop.ts, que é de onde
+    o 3D calcula onde o pódio caiu na tela. Mudou um, mude o outro.
+  */
+  .backdrop-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 78% 50%;
+  }
+
+  @media (orientation: portrait) {
+    .backdrop-art {
+      inset: auto 0 -12% 0;
+      height: auto;
+      object-fit: fill;
+    }
+  }
+}

@@ -1,119 +1,116 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { WhatsAppButton } from "@/components/whatsapp-button";
+import { Mail, MapPin, MessageCircle, Phone, Send, User } from "lucide-react";
+import { CTAButton } from "@/components/CTAButton";
+import { Footer } from "@/components/Footer";
+import { PageHero } from "@/components/PageHero";
+import { CONTACT } from "@/lib/site-data";
 
-interface ContactInfoProps {
-  icon: React.ReactNode;
-  title: string;
-  content: string;
-}
+const FIELD_CLASS =
+  "w-full rounded-xl border border-white/10 bg-black/50 px-4 py-3 text-white outline-none transition-all placeholder:text-gray-600 focus:border-transparent focus:ring-2 focus:ring-primary";
 
-export default function Contact() {
+/**
+ * Rota desativada no middleware.ts.
+ * O formulário anterior não tinha action nem handler — não enviava nada.
+ * Este usa o endpoint FormSubmit que já funcionava na home.
+ */
+export default function ContatoPage() {
   return (
-    <main className="pt-20">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-purple-900 via-blue-900 to-purple-900 text-white py-20">
-        <div className="container mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Entre em Contato</h1>
-          <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-            Estamos prontos para ajudar sua empresa a alcançar seu potencial máximo no mundo digital.
+    <main className="relative text-white">
+      <PageHero
+        eyebrow="Contato"
+        title="Vamos falar sobre o"
+        highlight="seu projeto"
+        description="O caminho mais rápido é o WhatsApp. Se preferir escrever, o formulário chega direto no nosso e-mail."
+      />
+
+      <section className="relative z-10 px-4 py-12">
+        <div className="mx-auto max-w-3xl rounded-3xl border border-primary/20 bg-black/50 px-6 py-12 text-center backdrop-blur-2xl md:px-12">
+          <h2 className="text-2xl font-bold md:text-3xl">Resposta em até 1 hora</h2>
+          <p className="mx-auto mt-3 max-w-lg text-gray-400">
+            No horário comercial, falando direto com quem vai tocar o projeto.
           </p>
-        </div>
-      </section>
-
-      {/* Contact Form & Info */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="bg-white p-8 rounded-xl shadow-lg">
-              <h2 className="text-2xl font-bold mb-6">Envie sua mensagem</h2>
-              <form className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Nome
-                  </label>
-                  <Input type="text" placeholder="Seu nome completo" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email
-                  </label>
-                  <Input type="email" placeholder="seu@email.com" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Telefone
-                  </label>
-                  <Input type="tel" placeholder="(00) 00000-0000" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Mensagem
-                  </label>
-                  <Textarea
-                    placeholder="Como podemos ajudar?"
-                    className="min-h-[150px]"
-                  />
-                </div>
-                <WhatsAppButton className="w-full bg-purple-600 hover:bg-purple-700 text-white" />
-              </form>
-            </div>
-
-            {/* Contact Info */}
-            <div className="space-y-12">
-              <div>
-                <h2 className="text-2xl font-bold mb-6">Informações de Contato</h2>
-                <div className="space-y-4">
-                  <ContactInfo
-                    icon={<Mail className="w-6 h-6" />}
-                    title="Email"
-                    content="contato@bevon.com"
-                  />
-                  <ContactInfo
-                    icon={<Phone className="w-6 h-6" />}
-                    title="Telefone"
-                    content="+55 (11) 99999-9999"
-                  />
-                  <ContactInfo
-                    icon={<MapPin className="w-6 h-6" />}
-                    title="Endereço"
-                    content="Av. Paulista, 1000 - São Paulo, SP"
-                  />
-                </div>
-              </div>
-
-              {/* Map */}
-              <div className="bg-gray-200 rounded-xl h-[300px] relative overflow-hidden">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.098371735362!2d-46.65390668502168!3d-23.564611384683764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1650000000000!5m2!1spt-BR!2sbr"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                />
-              </div>
-            </div>
+          <div className="mt-8">
+            <CTAButton context="um projeto para a minha empresa" className="px-10 py-5 text-lg">
+              <MessageCircle className="h-6 w-6" />
+              Chamar no WhatsApp
+            </CTAButton>
           </div>
+
+          <ul className="mx-auto mt-10 grid max-w-xl gap-4 border-t border-white/10 pt-8 text-sm text-gray-400 sm:grid-cols-2">
+            <li className="flex items-center justify-center gap-2">
+              <Mail className="h-4 w-4 text-primary" />
+              {CONTACT.email}
+            </li>
+            <li className="flex items-center justify-center gap-2">
+              <MapPin className="h-4 w-4 text-primary" />
+              {CONTACT.city}, {CONTACT.state}
+            </li>
+          </ul>
         </div>
       </section>
-    </main>
-  );
-}
 
-function ContactInfo({ icon, title, content }: ContactInfoProps) {
-  return (
-    <div className="flex items-start space-x-4">
-      <div className="text-purple-600">{icon}</div>
-      <div>
-        <h3 className="font-semibold">{title}</h3>
-        <p className="text-gray-600">{content}</p>
-      </div>
-    </div>
+      <section className="relative z-10 px-4 py-12 pb-24">
+        <div className="mx-auto max-w-2xl">
+          <h2 className="text-center text-2xl font-bold">Prefere escrever?</h2>
+
+          <form
+            action="https://formsubmit.co/rafapires2210@gmail.com"
+            method="POST"
+            className="mt-8 space-y-6 rounded-2xl border border-white/10 bg-black/40 p-8 backdrop-blur-xl"
+          >
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_subject" value="Novo contato via Site Bevon" />
+            <input type="hidden" name="_next" value="https://bevon.com.br/obrigado" />
+
+            <div className="space-y-2">
+              <label htmlFor="name" className="flex items-center gap-2 text-sm font-medium text-gray-300">
+                <User size={16} className="text-primary" /> Nome
+              </label>
+              <input id="name" name="name" type="text" required placeholder="Seu nome completo" className={FIELD_CLASS} />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="email" className="flex items-center gap-2 text-sm font-medium text-gray-300">
+                <Mail size={16} className="text-primary" /> E-mail
+              </label>
+              <input id="email" name="email" type="email" required placeholder="seu@email.com" className={FIELD_CLASS} />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="phone" className="flex items-center gap-2 text-sm font-medium text-gray-300">
+                <Phone size={16} className="text-primary" /> Telefone
+              </label>
+              <input id="phone" name="phone" type="tel" required placeholder="(31) 99999-9999" className={FIELD_CLASS} />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="message" className="flex items-center gap-2 text-sm font-medium text-gray-300">
+                <MessageCircle size={16} className="text-primary" /> Mensagem
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={5}
+                required
+                placeholder="Como podemos ajudar?"
+                className={`${FIELD_CLASS} resize-none`}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-4 font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:scale-[1.02]"
+            >
+              <Send size={20} />
+              Enviar mensagem
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
   );
 }

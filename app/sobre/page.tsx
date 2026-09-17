@@ -1,99 +1,111 @@
 "use client";
 
-import { Award, Users, Target, Lightbulb } from "lucide-react";
+import { motion } from "framer-motion";
+import { Award, Lightbulb, MapPin, Target } from "lucide-react";
+import { CTAButton } from "@/components/CTAButton";
+import { Footer } from "@/components/Footer";
+import { PageHero } from "@/components/PageHero";
+import { CONTACT, PROCESS, STATS } from "@/lib/site-data";
 
-interface TeamMemberProps {
-  image: string;
-  name: string;
-  role: string;
-}
+const PILLARS = [
+  {
+    icon: Target,
+    title: "Missão",
+    description:
+      "Impulsionar o crescimento dos nossos clientes com soluções digitais que podem ser medidas em faturamento.",
+  },
+  {
+    icon: Lightbulb,
+    title: "Visão",
+    description:
+      "Ser a referência em Minas Gerais quando uma empresa precisa transformar tecnologia em resultado comercial.",
+  },
+  {
+    icon: Award,
+    title: "Valores",
+    description:
+      "Transparência no escopo, clareza no prazo e responsabilidade sobre o número que combinamos entregar.",
+  },
+];
 
-export default function About() {
+export default function SobrePage() {
   return (
-    <main className="pt-20">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-purple-900 via-blue-900 to-purple-900 text-white py-20">
-        <div className="container mx-auto px-6">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Sobre a Bevon</h1>
-          <p className="text-xl text-gray-200 max-w-3xl">
-            Somos uma empresa apaixonada por transformação digital, focada em entregar resultados excepcionais através de estratégias inovadoras de marketing e desenvolvimento de software.
+    <main className="relative text-white">
+      <PageHero
+        eyebrow="Sobre a Bevon"
+        title="Um time"
+        highlight="responsável pelo resultado"
+        description={`De ${CONTACT.city} para todo o Brasil. Cada projeto é conduzido por quem construiu, sem camada de intermediário.`}
+      />
+
+      <section className="relative z-10 px-4 py-16">
+        <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
+          {PILLARS.map(({ icon: Icon, title, description }, i) => (
+            <motion.article
+              key={title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="rounded-2xl border border-white/10 bg-black/40 p-8 text-center backdrop-blur-xl"
+            >
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <Icon className="h-8 w-8" />
+              </div>
+              <h2 className="text-2xl font-bold">{title}</h2>
+              <p className="mt-4 leading-relaxed text-gray-400">{description}</p>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+
+      <section className="relative z-10 px-4 py-16">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-center text-3xl font-bold md:text-4xl">
+            Como conduzimos <span className="text-primary">cada projeto</span>
+          </h2>
+
+          <ol className="mt-12 grid gap-6 md:grid-cols-4">
+            {PROCESS.map((item, i) => (
+              <motion.li
+                key={item.step}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="rounded-2xl border border-white/10 bg-black/40 p-7 backdrop-blur-xl"
+              >
+                <span className="block bg-gradient-to-b from-primary to-primary/20 bg-clip-text text-4xl font-bold text-transparent">
+                  {item.step}
+                </span>
+                <h3 className="mt-3 text-xl font-bold">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-400">{item.description}</p>
+              </motion.li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="relative z-10 px-4 py-20">
+        <div className="mx-auto max-w-3xl rounded-3xl border border-primary/20 bg-black/50 px-6 py-14 text-center backdrop-blur-2xl md:px-12">
+          <p className="inline-flex items-center gap-2 text-sm text-gray-400">
+            <MapPin className="h-4 w-4 text-primary" />
+            {/* O mesmo número da home, da mesma fonte: duas contagens
+                diferentes de "projetos no ar" no mesmo site derrubam as duas. */}
+            {CONTACT.city}, {CONTACT.state} · {STATS[0].value} projetos no ar
           </p>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            <div className="text-center">
-              <div className="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Target className="w-10 h-10 text-purple-600" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Missão</h3>
-              <p className="text-gray-600">
-                Impulsionar o sucesso dos nossos clientes através de soluções digitais inovadoras e eficientes.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Lightbulb className="w-10 h-10 text-purple-600" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Visão</h3>
-              <p className="text-gray-600">
-                Ser referência em transformação digital, reconhecida pela excelência e inovação.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Award className="w-10 h-10 text-purple-600" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Valores</h3>
-              <p className="text-gray-600">
-                Inovação, Comprometimento, Transparência e Resultados.
-              </p>
-            </div>
+          <h2 className="mt-5 text-3xl font-bold md:text-4xl">
+            Quer conhecer melhor <span className="text-primary">nosso trabalho?</span>
+          </h2>
+          <div className="mt-8">
+            <CTAButton context="conhecer melhor o trabalho da Bevon" className="px-10 py-5 text-lg">
+              Falar com o time
+            </CTAButton>
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
-      {/*<section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-16">Nossa Equipe</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            <TeamMember
-              image="https://images.unsplash.com/photo-1560250097-0b93528c311a"
-              name="Carlos Silva"
-              role="CEO"
-            />
-            <TeamMember
-              image="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e"
-              name="Ana Santos"
-              role="Diretora de Marketing"
-            />
-            <TeamMember
-              image="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7"
-              name="Pedro Costa"
-              role="CTO"
-            />
-          </div>
-        </div>
-      </section> */}
+      <Footer />
     </main>
-  );
-}
-
-function TeamMember({ image, name, role }: TeamMemberProps) {
-  return (
-    <div className="text-center">
-      <div className="relative w-48 h-48 mx-auto mb-6">
-        <div
-          className="w-full h-full rounded-full bg-cover bg-center"
-          style={{ backgroundImage: `url(${image})` }}
-        />
-      </div>
-      <h3 className="text-xl font-semibold mb-2">{name}</h3>
-      <p className="text-gray-600">{role}</p>
-    </div>
   );
 }

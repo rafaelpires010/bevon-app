@@ -3,10 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Linkedin, MessageCircle, Mail, MapPin } from "lucide-react";
+import { CONTACT } from "@/lib/site-data";
 
 export function Footer() {
     return (
-        <footer className="bg-black border-t border-white/10 pt-16 pb-8 relative overflow-hidden">
+        <footer className="relative z-10 overflow-hidden border-t border-white/10 bg-black/60 pb-8 pt-16 backdrop-blur-xl">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(107,47,255,0.1),transparent_50%)]" />
 
             <div className="container mx-auto px-4 relative z-10">
@@ -84,8 +85,14 @@ export function Footer() {
                 </div>
 
                 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+                    {/* O CNPJ fica junto do © porque é a mesma informação:
+                        quem é a empresa por trás do site. Quem quer conferir
+                        com quem está falando procura exatamente aqui. */}
                     <p className="text-gray-500 text-sm text-center md:text-left">
                         © {new Date().getFullYear()} Bevon Digital. Todos os direitos reservados.
+                        <span className="mt-1 block md:mt-0 md:ml-1 md:inline">
+                            CNPJ {CONTACT.cnpj}
+                        </span>
                     </p>
                     <div className="flex gap-6">
                         <a href="#" className="text-gray-500 hover:text-white text-sm transition-colors">Privacidade</a>

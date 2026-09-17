@@ -1,98 +1,74 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Rocket,
-  Code2,
-  LineChart,
-  Smartphone,
-  Globe,
-  Search,
-  Mail,
-  Share2
-} from "lucide-react";
-import { WhatsAppButton } from "@/components/whatsapp-button";
+import { motion } from "framer-motion";
+import { Check, Code2, Layout, MessageSquare, PenTool } from "lucide-react";
+import { CTAButton } from "@/components/CTAButton";
+import { Footer } from "@/components/Footer";
+import { PageHero } from "@/components/PageHero";
+import { SERVICES } from "@/lib/site-data";
 
-interface ServiceCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}
+const ICONS: Record<string, React.ReactNode> = {
+  sites: <Layout className="h-7 w-7" />,
+  automacao: <MessageSquare className="h-7 w-7" />,
+  conteudo: <PenTool className="h-7 w-7" />,
+  sistemas: <Code2 className="h-7 w-7" />,
+};
 
-export default function Services() {
+/** Detalha os mesmos SERVICES da home — uma fonte de verdade só. */
+export default function ServicosPage() {
   return (
-    <main className="pt-20">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-purple-900 via-blue-900 to-purple-900 text-white py-20">
-        <div className="container mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Nossos Serviços</h1>
-          <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-            Soluções completas em marketing digital e desenvolvimento de software para impulsionar seu negócio.
-          </p>
+    <main className="relative text-white">
+      <PageHero
+        eyebrow="Serviços"
+        title="Tecnologia que"
+        highlight="gera receita"
+        description="Quatro frentes de trabalho, todas com o mesmo objetivo: transformar visitante em cliente."
+      />
+
+      <section className="relative z-10 px-4 py-16">
+        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
+          {SERVICES.map((service, i) => (
+            <motion.article
+              key={service.id}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.55, delay: (i % 2) * 0.1 }}
+              className="group flex flex-col rounded-2xl border border-white/10 bg-black/40 p-8 backdrop-blur-xl transition-colors duration-300 hover:border-primary/50"
+            >
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+                {ICONS[service.id]}
+              </div>
+              <h2 className="text-2xl font-bold">{service.title}</h2>
+              <p className="mt-2 font-medium text-primary">{service.outcome}</p>
+              <p className="mt-4 leading-relaxed text-gray-400">{service.description}</p>
+
+              <ul className="mt-6 space-y-2.5">
+                {service.bullets.map((bullet) => (
+                  <li key={bullet} className="flex items-center gap-3 text-sm text-gray-300">
+                    <Check className="h-4 w-4 shrink-0 text-primary" />
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-auto pt-8">
+                <CTAButton context={service.waContext} variant="ghost" className="w-full px-6 py-3 text-sm">
+                  Quero saber mais
+                </CTAButton>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <CTAButton context="um projeto para a minha empresa" className="px-10 py-5 text-lg">
+            Falar com um especialista
+          </CTAButton>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            <ServiceCard
-              icon={<Search className="w-12 h-12" />}
-              title="SEO"
-              description="Otimização para mecanismos de busca, aumentando sua visibilidade orgânica."
-            />
-            <ServiceCard
-              icon={<Globe className="w-12 h-12" />}
-              title="Desenvolvimento Web"
-              description="Sites e aplicações web modernas e responsivas."
-            />
-            <ServiceCard
-              icon={<Smartphone className="w-12 h-12" />}
-              title="Aplicativos Mobile"
-              description="Apps nativos e híbridos para iOS e Android."
-            />
-            <ServiceCard
-              icon={<Mail className="w-12 h-12" />}
-              title="Email Marketing"
-              description="Campanhas estratégicas para nutrir e converter leads."
-            />
-            <ServiceCard
-              icon={<LineChart className="w-12 h-12" />}
-              title="Marketing de Performance"
-              description="Campanhas otimizadas para máximo ROI."
-            />
-            <ServiceCard
-              icon={<Share2 className="w-12 h-12" />}
-              title="Mídias Sociais"
-              description="Gestão completa de redes sociais e criação de conteúdo."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-8">Vamos conversar sobre seu projeto?</h2>
-          {/* <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6">
-            Solicitar Orçamento
-          </Button> */}
-          <WhatsAppButton
-            variant="orcamento"
-            className="bg-purple-600 hover:bg-purple-700 text-white"
-          />
-        </div>
-      </section>
+      <Footer />
     </main>
-  );
-}
-
-function ServiceCard({ icon, title, description }: ServiceCardProps) {
-  return (
-    <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
-      <div className="text-purple-600 mb-6">{icon}</div>
-      <h3 className="text-2xl font-semibold mb-4">{title}</h3>
-      <p className="text-gray-600">{description}</p>
-    </div>
   );
 }

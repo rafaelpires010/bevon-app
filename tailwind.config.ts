@@ -9,6 +9,36 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-bevon)', 'system-ui', 'sans-serif'],
+      },
+      /**
+       * Escala tipográfica do guia da marca.
+       *
+       * A hierarquia do guia é aplicada aqui, na escala inteira, em vez de
+       * classe por classe nas páginas: display (24px pra cima) em 120% de
+       * entrelinha, texto em 140%, e o afunilamento do espaçamento conforme
+       * o corpo cresce. Assim todo `text-4xl` que já existe no site herda o
+       * guia sem ninguém precisar reescrever marcação.
+       *
+       * As linhas do guia caem exatas em: 6xl = H1 (60/120, -1%),
+       * 4xl ≈ H2 (40/120, -1%), 2xl = H3 (24/120, 0%),
+       * base = corpo (16/140, 0%), sm = legenda (14/140, +2%).
+       */
+      fontSize: {
+        xs: ['0.75rem', { lineHeight: '1.4', letterSpacing: '0.02em' }],
+        sm: ['0.875rem', { lineHeight: '1.4', letterSpacing: '0.02em' }],
+        base: ['1rem', { lineHeight: '1.4', letterSpacing: '0' }],
+        lg: ['1.125rem', { lineHeight: '1.4', letterSpacing: '0' }],
+        xl: ['1.25rem', { lineHeight: '1.35', letterSpacing: '0' }],
+        '2xl': ['1.5rem', { lineHeight: '1.2', letterSpacing: '0' }],
+        '3xl': ['1.875rem', { lineHeight: '1.2', letterSpacing: '-0.005em' }],
+        '4xl': ['2.25rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
+        '5xl': ['3rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
+        '6xl': ['3.75rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
+        '7xl': ['4.5rem', { lineHeight: '1.1', letterSpacing: '-0.015em' }],
+        '8xl': ['6rem', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
